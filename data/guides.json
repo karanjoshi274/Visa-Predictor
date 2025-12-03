@@ -1,0 +1,31 @@
+{
+  "wage_below_prev": [
+    "Collect OES (BLS) wage level screenshots and cite SOC & MSA used.",
+    "Add internal compensation memo explaining how wage will be raised to meet prevailing within 30 days.",
+    "Attach third-party wage surveys (Radford/ERi) if OES is distorted for niche roles."
+  ],
+  "not_full_time": [
+    "Convert the offer to full-time or include a signed addendum with minimum 35 hours/week.",
+    "Add project plan showing continuous workload justifying full-time need."
+  ],
+  "h1b_dependent": [
+    "Include non-displacement attestations and recruitment evidence as per 20 CFR 655.736.",
+    "Highlight U.S. worker recruitment outcomes and job-specific skills matrix."
+  ],
+ No "willful_violator": [
+    "Provide evidence of remedial actions and recent clean DOL audits.",
+    "Add compliance SOP (LCA posting, public access file checklist, wage tracking)."
+  ],
+  "willful_violator": [
+    "Provide evidence of remedial actions and recent clean DOL audits.",
+    "Add compliance SOP (LCA posting, public access file checklist, wage tracking)."
+  ],
+  "no_lc_agree": [
+    "Confirm acceptance of all LC statements (wage, working conditions, strike/lockout, notice).",
+    "Attach signed LC acknowledgement from employer representative."
+  ],
+  "short_duration": [
+    "Increase requested validity to 24–36 months with project timeline and SOW milestones.",
+    "Add client letter confirming long-term assignment and funding."
+  ]
+}
