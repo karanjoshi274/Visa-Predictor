@@ -1,0 +1,6 @@
+EMPLOYER_NAME,JOB_TITLE,OFFERED_WAGE,FULL_TIME_POSITION,probability_%,recommendation,score_wage,score_compliance,score_stability,score_docs,score_total
+,,,N,0.04,❌ High chance of denial,0.0,100.0,40.0,40.0,41.0
+,,,N,0.04,❌ High chance of denial,0.0,100.0,40.0,40.0,41.0
+,,,N,0.04,❌ High chance of denial,0.0,100.0,40.0,40.0,41.0
+,,,N,0.04,❌ High chance of denial,0.0,100.0,40.0,40.0,41.0
+,,,N,0.04,❌ High chance of denial,0.0,100.0,40.0,40.0,41.0

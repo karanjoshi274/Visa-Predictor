@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Visa Assistant{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    :root {
+      --brand:#0d6efd; --ink:#1d3557; --muted:#6c757d; --bg:#f7f9fc; --card:#ffffff;
+      --ok:#2e8b57; --warn:#e0a800; --bad:#c82333;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#222}
+    .nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #e9ecef}
+    .nav .wrap{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:16px;align-items:center}
+    .brand{font-weight:700;color:var(--ink);text-decoration:none}
+    .nav a{color:#324; text-decoration:none; padding:8px 10px;border-radius:10px}
+    .nav a.active, .nav a:hover{background:#eef4ff;color:var(--brand)}
+    .container{max-width:1100px;margin:24px auto;padding:0 16px}
+    .card{background:var(--card);border:1px solid #e9ecef;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .pad{padding:18px}
+    /* Floating Quick Actions */
+    .fab {position: fixed; right: 20px; bottom: 20px; display:flex; flex-direction:column; gap:10px}
+    .fab a{background:var(--brand); color:#fff; text-decoration:none; border-radius:999px; padding:10px 14px; box-shadow:0 6px 18px rgba(13,110,253,.25)}
+    .fab a.secondary{background:#20c997}
+    .fab a.ghost{background:#6f42c1}
+    .muted{color:var(--muted)}
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="/">Visa Assistant</a>
+      <div style="margin-left:auto; display:flex; gap:6px;">
+        <a href="/"        class="{% if request.url.path == '/' %}active{% endif %}">Predict</a>
+        <a href="/wage"    class="{% if request.url.path.startswith('/wage') %}active{% endif %}">Wage Comparator</a>
+        <a href="/bulk"    class="{% if request.url.path.startswith('/bulk') %}active{% endif %}">Bulk Upload</a>
+        <a href="/chat"    class="{% if request.url.path.startswith('/chat') %}active{% endif %}">Chatbot</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <div class="fab">
+    <a href="/chat" class="ghost">💬 Ask the Assistant</a>
+    <a href="/wage" class="secondary">💼 Compare Wage</a>
+    <a href="/bulk">📤 Bulk Predictions</a>
+  </div>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

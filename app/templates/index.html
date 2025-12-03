@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Visa Approval Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+  <style>
+    :root { --brand:#004aad; --ink:#1d3557; --bg:#f7f9fc; --card:#ffffff; }
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#222}
+    .nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #e9ecef}
+    .nav .wrap{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:16px;align-items:center}
+    .brand{font-weight:700;color:#1d3557;text-decoration:none}
+    .nav a{color:#334; text-decoration:none; padding:8px 10px;border-radius:10px}
+    .nav a.active, .nav a:hover{background:#eef4ff;color:var(--brand)}
+    .container{max-width:1100px;margin:24px auto;padding:0 16px}
+    .card{background:var(--card);border:1px solid #e9ecef;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .pad{padding:18px}
+    .muted{color:#6c757d}
+    .fab {position: fixed; right: 20px; bottom: 20px; display:flex; flex-direction:column; gap:10px}
+    .fab a{background:#004aad; color:#fff; text-decoration:none; border-radius:999px; padding:10px 14px; box-shadow:0 6px 18px rgba(0,0,0,.15)}
+    .fab a.secondary{background:#20c997}
+    .fab a.ghost{background:#6f42c1}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="/">Visa Assistant</a>
+      <div style="margin-left:auto; display:flex; gap:6px;">
+        <a href="/"     class="active">Predict</a>
+        <a href="/wage">Wage Comparator</a>
+        <a href="/bulk">Bulk Upload</a>
+        <a href="/chat">Chatbot</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="card pad">
+      <h2 style="margin:0 0 12px">Visa Approval Predictor</h2>
+      <p class="muted" style="margin-top:0">Fill the form to get probability, factors, scorecard, and suggestions.</p>
+
+      <form action="/predict" method="post" autocomplete="off">
+        <label>Visa Class (e.g., H-1B):</label><br>
+        <input type="text" name="visa_class" /><br>
+
+        <label>Job Title:</label><br>
+        <input type="text" id="job_title" name="job_title" /><br>
+
+        <label>Employer Name:</label><br>
+        <input type="text" id="employer_name" name="employer_name" /><br>
+
+        <label>SOC Code (optional):</label><br>
+        <input type="text" name="soc_code" /><br>
+
+        <label>SOC Title (optional):</label><br>
+        <input type="text" name="soc_title" /><br>
+
+        <label>Employer State (2-letter):</label><br>
+        <input type="text" name="employer_state" maxlength="2" /><br>
+
+        <label>Worksite State (2-letter):</label><br>
+        <input type="text" name="worksite_state" maxlength="2" /><br>
+
+        <label>Worksite City:</label><br>
+        <input type="text" name="worksite_city" /><br>
+
+        <label>Full-Time Position (Y/N):</label><br>
+        <input type="text" name="full_time_position" maxlength="1" /><br>
+
+        <label>Number of Positions:</label><br>
+        <input type="number" name="total_worker_positions" value="1" /><br>
+
+        <label>Offered Wage (numeric):</label><br>
+        <input type="number" name="wage" step="0.01" /><br>
+
+        <label>Wage Unit of Pay:</label><br>
+        <select name="wage_unit">
+          <option value="Year" selected>Year</option>
+          <option value="Month">Month</option>
+          <option value="Hour">Hour</option>
+        </select><br>
+
+        <label>Prevailing Wage (optional):</label><br>
+        <input type="number" name="prevailing_wage" step="0.01" /><br>
+
+        <label>New Employment (Y/N):</label><br>
+        <input type="text" name="new_employment" maxlength="1" /><br>
+
+        <label>Continued Employment (Y/N):</label><br>
+        <input type="text" name="continued_employment" maxlength="1" /><br>
+
+        <label>Change of Employer (Y/N):</label><br>
+        <input type="text" name="change_employer" maxlength="1" /><br>
+
+        <label>H-1B Dependent (Y/N):</label><br>
+        <input type="text" name="h1b_dependent" maxlength="1" /><br>
+
+        <label>Willful Violator (Y/N):</label><br>
+        <input type="text" name="willful_violator" maxlength="1" /><br>
+
+        <label>Agree to LC Statement (Y/N):</label><br>
+        <input type="text" name="agree_lc" maxlength="1" /><br>
+
+        <label>Begin Date:</label><br>
+        <input type="date" name="begin_date" /><br>
+
+        <label>End Date:</label><br>
+        <input type="date" name="end_date" /><br>
+
+        <label>Your Email (for results):</label><br>
+        <input type="email" name="email" /><br><br>
+
+        <button type="submit">Get Prediction</button>
+      </form>
+    </div>
+
+    <div style="margin-top:16px; display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(240px,1fr));">
+      <a class="card pad" href="/wage"><b>💼 Compare Wage</b><br><span class="muted">Check offered vs market medians</span></a>
+      <a class="card pad" href="/bulk"><b>📤 Bulk Predictions</b><br><span class="muted">Upload CSV & download results</span></a>
+      <a class="card pad" href="/chat"><b>💬 Visa Assistant</b><br><span class="muted">Ask about factors & improvements</span></a>
+    </div>
+  </main>
+
+  <div class="fab">
+    <a href="/chat" class="ghost">💬 Ask the Assistant</a>
+    <a href="/wage" class="secondary">💼 Compare Wage</a>
+    <a href="/bulk">📤 Bulk Predictions</a>
+  </div>
+
+  <script>
+  async function fetchSuggestions(field, query) {
+    try {
+      const res = await fetch(`/autocomplete/${field}?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      return data.results || [];
+    } catch { return []; }
+  }
+  function autocomplete(inp, field) {
+    let currentFocus;
+    inp.addEventListener("input", async function() {
+      const val = this.value; closeAllLists(); if (!val) return false;
+      currentFocus = -1;
+      const suggestions = await fetchSuggestions(field, val);
+      const listDiv = document.createElement("DIV");
+      listDiv.setAttribute("id", this.id + "-autocomplete-list");
+      listDiv.setAttribute("class", "autocomplete-items");
+      this.parentNode.appendChild(listDiv);
+      suggestions.forEach(v => {
+        const itemDiv = document.createElement("DIV");
+        itemDiv.innerHTML = "<strong>" + v.substr(0, val.length) + "</strong>" + v.substr(val.length);
+        itemDiv.innerHTML += "<input type='hidden' value='" + v + "'>";
+        itemDiv.addEventListener("click", function() {
+          inp.value = this.getElementsByTagName("input")[0].value; closeAllLists();
+        });
+        listDiv.appendChild(itemDiv);
+      });
+    });
+    inp.addEventListener("keydown", function(e) {
+      let x = document.getElementById(this.id + "-autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) { currentFocus++; addActive(x); }
+      else if (e.keyCode == 38) { currentFocus--; addActive(x); }
+      else if (e.keyCode == 13) { e.preventDefault(); if (currentFocus > -1 && x) x[currentFocus].click(); }
+    });
+    function addActive(x){ if(!x) return; removeActive(x); if (currentFocus>=x.length) currentFocus=0; if (currentFocus<0) currentFocus=x.length-1; x[currentFocus].classList.add("autocomplete-active"); }
+    function removeActive(x){ for (const item of x) item.classList.remove("autocomplete-active"); }
+    function closeAllLists(elmnt){ const items=document.getElementsByClassName("autocomplete-items"); for (const item of items){ if (elmnt!=item && elmnt!=inp) item.parentNode.removeChild(item);} }
+    document.addEventListener("click", function (e) { closeAllLists(e.target); });
+  }
+  document.addEventListener("DOMContentLoaded", function(){
+    autocomplete(document.getElementById("employer_name"), "employer");
+    autocomplete(document.getElementById("job_title"), "job_title");
+  });
+  </script>
+</body>
+</html>

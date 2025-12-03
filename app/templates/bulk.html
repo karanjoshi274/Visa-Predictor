@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Bulk Predictions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{--brand:#004aad;--bg:#f7f9fc}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg)}
+    .nav{position:sticky;top:0;background:#fff;border-bottom:1px solid #e9ecef}
+    .nav .wrap{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:16px;align-items:center}
+    .nav a{color:#334; text-decoration:none; padding:8px 10px;border-radius:10px}
+    .nav a.active, .nav a:hover{background:#eef4ff;color:var(--brand)}
+    .container{max-width:1100px;margin:24px auto;padding:0 16px}
+    .card{background:#fff;border:1px solid #e9ecef;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .pad{padding:18px}
+    table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+    th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px;}
+    th { background: #f0f2f5; text-align: left; }
+    .btn { background:#0a4; color:#fff; padding:8px 14px; border:none; border-radius:8px; cursor:pointer; }
+    .link { color:#0a4; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="/">Visa Assistant</a>
+      <div style="margin-left:auto; display:flex; gap:6px;">
+        <a href="/">Predict</a>
+        <a href="/wage">Wage Comparator</a>
+        <a href="/bulk" class="active">Bulk Upload</a>
+        <a href="/chat">Chatbot</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="card pad">
+      <h2 style="margin:0 0 12px">Bulk Visa Prediction (CSV)</h2>
+      <p>Upload a CSV and download results with probabilities & suggestions.</p>
+
+      <p><strong>Expected columns</strong> (case-sensitive):</p>
+      <code>VISA_CLASS, JOB_TITLE, SOC_CODE, SOC_TITLE, EMPLOYER_NAME, EMPLOYER_STATE, WORKSITE_STATE, WORKSITE_CITY, FULL_TIME_POSITION, TOTAL_WORKER_POSITIONS, WAGE_RATE_OF_PAY_FROM, WAGE_UNIT_OF_PAY, PREVAILING_WAGE, NEW_EMPLOYMENT, CONTINUED_EMPLOYMENT, CHANGE_EMPLOYER, H_1B_DEPENDENT, WILLFUL_VIOLATOR, AGREE_TO_LC_STATEMENT, BEGIN_DATE, END_DATE, EMAIL</code>
+
+      <form method="post" action="/bulk" enctype="multipart/form-data" style="margin-top:16px;">
+        <input type="file" name="file" accept=".csv" required />
+        <button class="btn" type="submit">Run Bulk Predictions</button>
+      </form>
+
+      {% if error %}
+        <p style="color:#c00; margin-top: 20px;"><strong>Error:</strong> {{ error }}</p>
+      {% endif %}
+    </div>
+
+    {% if preview %}
+      <div class="card pad" style="margin-top:16px;">
+        <h3 style="margin-top:0;">Preview (first {{ preview|length }} rows)</h3>
+        <div style="overflow:auto;">
+          <table>
+            <thead>
+              <tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}</tr>
+            </thead>
+            <tbody>
+              {% for r in preview %}
+                <tr>{% for c in columns %}<td>{{ r[c] }}</td>{% endfor %}</tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if download %}
+          <p style="margin-top: 14px;">
+            ✅ Done. <a class="link" href="{{ download }}">Download full results CSV</a>
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </main>
+</body>
+</html>

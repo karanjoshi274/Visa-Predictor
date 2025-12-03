@@ -1,0 +1,6 @@
+VISA_CLASS,JOB_TITLE,EMPLOYER_NAME,WORKSITE_STATE,SOC_CODE,WAGE_RATE_OF_PAY_FROM,PREVAILING_WAGE,FULL_TIME_POSITION,probability_%,recommendation,score_wage,score_compliance,score_stability,score_docs,score_total
+,,,,,,,,N/A,Error: compute_strength_score() got an unexpected keyword argument 'offered_wage',0,0,0,0,0
+,,,,,,,,N/A,Error: compute_strength_score() got an unexpected keyword argument 'offered_wage',0,0,0,0,0
+,,,,,,,,N/A,Error: compute_strength_score() got an unexpected keyword argument 'offered_wage',0,0,0,0,0
+,,,,,,,,N/A,Error: compute_strength_score() got an unexpected keyword argument 'offered_wage',0,0,0,0,0
+,,,,,,,,N/A,Error: compute_strength_score() got an unexpected keyword argument 'offered_wage',0,0,0,0,0

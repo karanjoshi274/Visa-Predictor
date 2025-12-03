@@ -1,0 +1,11 @@
+EMPLOYER_NAME,JOB_TITLE,OFFERED_WAGE,FULL_TIME_POSITION,probability_%,recommendation,score_wage,score_compliance,score_stability,score_docs,score_total
+TopTech Solutions,Senior Software Engineer,200000,Y,88.82,✅ High chance of approval,100.0,100.0,90.0,100.0,98.0
+Insight Labs,Data Scientist,160000,Y,89.83,✅ High chance of approval,74.0,70.0,90.0,100.0,81.4
+Denken Solutions Inc,BI Developer,82000,Y,2.74,❌ High chance of denial,64.7,100.0,90.0,100.0,85.6
+DataCore Inc,Systems Analyst,82000,Y,93.56,✅ High chance of approval,71.5,100.0,80.0,100.0,86.0
+PrecisionWorks,Quality Engineer,76000,Y,89.98,✅ High chance of approval,72.5,100.0,90.0,100.0,88.4
+ABC Consulting Services,Junior Developer,45000,N,80.44,✅ High chance of approval,32.1,0.0,50.0,100.0,41.2
+BioWorks Labs,Research Assistant,34000,N,91.59,✅ High chance of approval,32.7,70.0,50.0,100.0,58.9
+CIRA Infotech Inc,Network Engineer,83000,Y,1.13,❌ High chance of denial,77.0,40.0,90.0,100.0,74.9
+QuickDev Contractors,Contractor Developer,60000,N,87.4,✅ High chance of approval,33.3,20.0,50.0,100.0,46.7
+ArchCore LLC,Principal Architect,180000,Y,84.97,✅ High chance of approval,100.0,70.0,90.0,100.0,90.5

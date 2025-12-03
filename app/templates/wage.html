@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wage Comparison Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{--brand:#004aad;--bg:#f7f9fc}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg)}
+    .nav{position:sticky;top:0;background:#fff;border-bottom:1px solid #e9ecef}
+    .nav .wrap{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:16px;align-items:center}
+    .nav a{color:#334; text-decoration:none; padding:8px 10px;border-radius:10px}
+    .nav a.active, .nav a:hover{background:#eef4ff;color:var(--brand)}
+    .container{max-width:1100px;margin:24px auto;padding:0 16px}
+    .card{background:#fff;border:1px solid #e9ecef;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .pad{padding:18px}
+    .muted { color:#666; }
+    form { background:#f7f7f7; padding:16px; border-radius:8px; }
+    label { display:block; margin-top:10px; font-weight:600; }
+    input, select { width:100%; padding:8px; margin-top:6px; }
+    button { margin-top:14px; padding:10px 14px; background:#0a4; color:#fff; border:0; border-radius:6px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="/">Visa Assistant</a>
+      <div style="margin-left:auto; display:flex; gap:6px;">
+        <a href="/">Predict</a>
+        <a href="/wage" class="active">Wage Comparator</a>
+        <a href="/bulk">Bulk Upload</a>
+        <a href="/chat">Chatbot</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="card pad">
+      <h2 style="margin:0 0 10px">Prevailing Wage Benchmark</h2>
+
+      <form method="post" action="/wage">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div>
+            <label>SOC Code</label>
+            <input name="soc_code" value="{{ soc_code or '' }}" placeholder="e.g., 15-1252">
+          </div>
+          <div>
+            <label>Worksite State (2-letter)</label>
+            <input name="worksite_state" value="{{ worksite_state or '' }}" placeholder="e.g., CA">
+          </div>
+          <div>
+            <label>Offered Wage</label>
+            <input name="offered_wage" value="{{ offered_wage or '' }}" placeholder="e.g., 120000">
+          </div>
+          <div>
+            <label>Wage Unit</label>
+            <select name="wage_unit">
+              {% set opt = wage_unit or 'Year' %}
+              {% for u in ['Year','Hour','Week','Month','Bi-Weekly','Day'] %}
+                <option value="{{u}}" {% if u==opt %}selected{% endif %}>{{u}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <button type="submit">Compare</button>
+      </form>
+
+      {% if result %}
+      <div class="card pad" style="margin-top:20px;">
+        {% if result.found %}
+          <h3>Result</h3>
+          <p>
+            <strong>Verdict:</strong> {{ result.verdict }}
+            <span class="muted"> (Offered yearly: ${{ '{:,.0f}'.format(result.offered_yearly) }},
+            Median: ${{ '{:,.0f}'.format(result.median) }},
+            P25: ${{ '{:,.0f}'.format(result.p25) }},
+            P75: ${{ '{:,.0f}'.format(result.p75) }},
+            n={{ result.n }})</span>
+          </p>
+
+          <canvas id="wageChart"></canvas>
+          <script>
+            const ctx = document.getElementById('wageChart').getContext('2d');
+            const data = { labels: ['P25','Median','P75','Offered'],
+              datasets: [{ label:'Yearly $', data:[ {{ result.p25 }}, {{ result.median }}, {{ result.p75 }}, {{ result.offered_yearly }} ]}]};
+            new Chart(ctx, { type:'bar', data, options:{ plugins:{ legend:{display:false}},
+              scales:{ y:{ ticks:{ callback:(v)=>'$'+v.toLocaleString() } } } }});
+          </script>
+        {% else %}
+          <p><strong>Sorry:</strong> {{ result.message }}</p>
+          <p class="muted">Tip: try a different SOC code or state that has more filings.</p>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <p class="muted" style="margin-top:10px;">Source: aggregated from the H-1B disclosure CSV (median by SOC_CODE × state, normalized to yearly).</p>
+    </div>
+  </main>
+</body>
+</html>

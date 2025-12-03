@@ -1,0 +1,2 @@
+EMPLOYER_NAME,JOB_TITLE,OFFERED_WAGE,FULL_TIME_POSITION,probability_%,recommendation,score_wage,score_compliance,score_stability,score_docs,score_total
+TopTech Solutions,Senior Software Engineer,200000,Y,88.82,✅ High chance of approval,100.0,100.0,90.0,100.0,98.0
